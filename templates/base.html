@@ -17,7 +17,7 @@
                     {% if user.is_organizer %}
                         <a href="{% url 'organizer_dashboard' %}" class="btn btn-outline-light btn-sm">My events</a>
                     {% else %}
-                        <a href="{% url 'attendee_dashboard' %}" class="btn btn-outline-light btn-sm">My registrations</a>
+                        <a href="" class="btn btn-outline-light btn-sm">My registrations</a>
                     {% endif %}
 
                     <span class="text-white small d-none d-sm-inline">Ciao, {{ user.username }}</span>

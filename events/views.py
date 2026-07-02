@@ -1,8 +1,9 @@
 from django.shortcuts import render
 from django.urls import reverse_lazy
 from accounts.mixins import OrganizerRequiredMixin
-from django.views.generic import ListView, DetailView, CreateView
+from django.views.generic import ListView, DetailView, CreateView, DeleteView
 from django.contrib import messages
+from django.core.exceptions import PermissionDenied
 from .models import Event
 from .forms import EventForm
 
@@ -27,6 +28,16 @@ class EventCreateView(OrganizerRequiredMixin, CreateView):
         messages.success(self.request, f'Event "{form.instance.title}" has been succesfully registered!')
         return response
 
+class EventDeleteView(OrganizerRequiredMixin, DeleteView):
+    model = Event
+    template_name = "event_delete.html"
+    success_url = reverse_lazy("organizer_dashboard")
+
+    def dispatch(self, request, *args, **kwargs):
+        self.object = self.get_object()
+        if request.user != self.object.organizer:
+            raise PermissionDenied
+        return super().dispatch(request, *args, **kwargs)
 
 class OrganizerDashboardView(OrganizerRequiredMixin, ListView):
     model = Event

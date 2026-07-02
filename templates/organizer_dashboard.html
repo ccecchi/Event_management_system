@@ -1,16 +1,16 @@
 {% extends "base.html" %}
 
 {% block body %}
-<div class="container min-vh-100 d-flex flex-column justify-content-center align-items-center py-5">
+<div class="container min-vh-100 d-flex flex-column  align-items-center py-5">
     <div class="card shadow-sm p-4" style="width: 600px;">
         <div class="d-flex justify-content-between align-items-center mb-3">
             <h2 class="h4 mb-0 text-dark">My Events</h2>
             <a href="{% url 'new_event' %}" class="btn btn-primary btn-sm">+ Create event</a>
         </div>
 
-        {% if events %}
+        {% if event_list %}
             <ul class="list-group">
-                {% for event in events %}
+                {% for event in event_list %}
                     <li class="list-group-item d-flex justify-content-between align-items-center">
                         <div>
                             <a href="{{ event.get_absolute_url }}" class="text-decoration-none">{{ event.title }}</a>
