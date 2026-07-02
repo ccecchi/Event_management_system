@@ -1,7 +1,7 @@
 from django.shortcuts import render
 from django.urls import reverse_lazy
 from accounts.mixins import OrganizerRequiredMixin
-from django.views.generic import ListView, DetailView, CreateView, DeleteView
+from django.views.generic import ListView, DetailView, CreateView, DeleteView, UpdateView
 from django.contrib import messages
 from django.core.exceptions import PermissionDenied
 from .models import Event
@@ -27,6 +27,13 @@ class EventCreateView(OrganizerRequiredMixin, CreateView):
         response = super().form_valid(form)
         messages.success(self.request, f'Event "{form.instance.title}" has been succesfully registered!')
         return response
+
+
+class EventUpdateView(OrganizerRequiredMixin, UpdateView):
+    model = Event
+    form_class = EventForm
+    template_name = "event_edit.html"
+
 
 class EventDeleteView(OrganizerRequiredMixin, DeleteView):
     model = Event
