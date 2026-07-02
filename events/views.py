@@ -1,14 +1,10 @@
 from django.shortcuts import render
 from django.urls import reverse_lazy
-from django.contrib.auth.mixins import LoginRequiredMixin, UserPassesTestMixin
+from accounts.mixins import OrganizerRequiredMixin
 from django.views.generic import ListView, DetailView, CreateView
 from django.contrib import messages
 from .models import Event
 from .forms import EventForm
-
-class EventListView(ListView):
-    model = Event
-    template_name = "event_list.html"
 
 
 class EventDetailView(DetailView):
@@ -16,7 +12,7 @@ class EventDetailView(DetailView):
     template_name = "event_detail.html"
 
 
-class EventCreateView(LoginRequiredMixin, UserPassesTestMixin, CreateView):
+class EventCreateView(OrganizerRequiredMixin, CreateView):
     model = Event
     form_class = EventForm
     template_name = "event_new.html"
@@ -32,8 +28,7 @@ class EventCreateView(LoginRequiredMixin, UserPassesTestMixin, CreateView):
         return response
 
 
-
-class OrganizerDashboardView(LoginRequiredMixin, UserPassesTestMixin, ListView):
+class OrganizerDashboardView(OrganizerRequiredMixin, ListView):
     model = Event
     template_name = "organizer_dashboard.html"
 
