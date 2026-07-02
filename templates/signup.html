@@ -1,56 +1,65 @@
-{%extends "base.html"%}
+{% extends "base.html" %}
 
-{% block body%}
-<div class="card shadow-sm p-4" style="width: 360px;"> <h2 class="text-center h4 mb-1 text-dark">Sign Up</h2>
-    
-    <div class="text-center text-muted small mb-3">
-        Registering as: 
-        <strong>
-            {% if role_type == "A" %}
-                Attendee
-            {% elif role_type == "O" %}
-                Organizer
-            {% else %}
-                {{ role_type }}
-            {% endif %}
-        </strong>
-    </div>
-    
-    {% if form.errors %}
-        <div class="alert alert-danger p-2 text-center small mb-3" role="alert">
-            Please correct the errors below.
+{% block body %}
+<div class="container min-vh-100 d-flex flex-column align-items-center justify-content-center py-5">
+    <div class="col-12 col-md-8 col-lg-6">
+        <h2 class="text-center mb-1 fw-bold text-dark">Sign Up</h2>
+
+        <div class="text-center text-muted small mb-4">
+            Registering as: 
+            <span class="badge bg-light text-dark border px-2 py-1.5 fw-semibold ms-1">
+                {% if role_type == "A" %}
+                    Attendee
+                {% elif role_type == "O" %}
+                    Organizer
+                {% else %}
+                    {{ role_type }}
+                {% endif %}
+            </span>
         </div>
-    {% endif %}
 
-    <form method="post">
-        {% csrf_token %}
-
-        {% for field in form %}
-            <div class="mb-3">
-                <label for="{{ field.id_for_label }}" class="form-label text-muted small fw-medium mb-1">{{ field.label }}</label>
-                
-                {# Il campo di input di Django #}
-                {{ field }}
-                
-                {% if field.help_text %}
-                    <div class="form-text text-muted" style="font-size: 11px; line-height: 1.3;">
-                        {{ field.help_text|safe }}
-                    </div>
-                {% endif %}
-                
-                {% if field.errors %}
-                    <div class="text-danger small mt-1" style="font-size: 13px;">
-                        {{ field.errors|striptags }}
-                    </div>
-                {% endif %}
+        {% if form.errors %}
+            <div class="alert alert-danger p-3 small mb-4 d-flex align-items-center border-0 shadow-sm" role="alert">
+                <i class="bi bi-exclamation-circle-fill me-2 fs-5"></i>
+                <div>Please correct the errors marked in red below.</div>
             </div>
-        {% endfor %}
+        {% endif %}
 
-        <button type="submit" class="btn btn-primary w-100 mt-2">Register</button>
-    </form>
+        <div class="card shadow-sm border-0 mb-4 bg-white">
+            <div class="card-body p-4">
+                <form method="post">
+                    {% csrf_token %}
+                    {% for field in form %}
+                        <div class="mb-3">
+                            <label for="{{ field.id_for_label }}" class="form-label text-secondary small fw-semibold mb-1">
+                                {{ field.label }}
+                            </label>
+                            {{ field }}
 
-    <div class="text-center mt-3 small">
-        Already have an account? <a href="{% url 'login' %}" class="text-decoration-none">Log In</a>
+                            {% if field.help_text %}
+                                <div class="form-text text-muted small lh-sm mt-1">
+                                    {{ field.help_text|safe }}
+                                </div>
+                            {% endif %}
+
+                            {% if field.errors %}
+                                <div class="text-danger small mt-1 d-flex align-items-center fw-medium">
+                                    <i class="bi bi-x-circle me-1"></i>{{ field.errors|striptags }}
+                                </div>
+                            {% endif %}
+                        </div>
+                    {% endfor %}
+
+                    <button type="submit" class="btn btn-primary w-100 py-2 mt-2 shadow-sm fw-semibold">
+                        Register
+                    </button>
+                </form>
+            </div>
+        </div>
+
+        <div class="text-center mt-3 small text-secondary">
+            Already have an account? <a href="{% url 'login' %}" class="text-primary fw-medium text-decoration-none border-bottom border-primary-subtle">Log In</a>
+        </div>
     </div>
 </div>
-{% endblock body%}
+{% endblock body %}
