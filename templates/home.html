@@ -1,74 +1,67 @@
 {% extends "base.html" %}
-
-
-{% block body%}
-    <div class="container vh-100 d-flex flex-column justify-content-center align-items-center">
-        
-        <div class="text-center mb-5">
-            <h1 class="display-4 fw-bold text-primary">Event Management System</h1>
-            <p class="lead text-muted">La piattaforma ideale per scoprire eventi straordinari o per organizzarli da protagonista.</p>
-        </div>
-
-        <div class="card p-4 shadow" style="max-width: 500px; width: 100%; border-radius: 15px;">
-            
-            {% if user.is_authenticated %}
-                <div class="text-center">
-                    <h3 class="mb-3">Bentornato, <span class="text-primary">{{ user.username }}</span>!</h3>
-                    <p class="text-muted">
-                        Sei attualmente autenticato come: 
-                        <span class="badge bg-secondary fs-6 mt-1">
-                            {% if user.ruolo == 'O' %} Organizzatore  {% else %} Partecipante  {% endif %}
-                        </span>
-                    </p>
-                    
-                    <div class="d-grid gap-2 mt-4">
-                        <a href="" class="btn btn-primary btn-lg">Vai alla tua Area Riservata</a>
-                        
-                        <form action="" method="post" class="w-100 mt-2">
-                            {% csrf_token %}
-                            <button type="submit" class="btn btn-outline-danger w-100">Sconnetti (Logout)</button>
-                        </form>
-                    </div>
-                </div>
-
-            {% else %}
-                <div class="text-center">
-                    
-                    <div class="d-grid gap-2 mb-4">
-                        <a href="{% url 'login' %}" class="btn btn-primary btn-lg fw-semibold shadow-sm">Accedi al tuo Account</a>
-                    </div>
-                    
-                    <div class="position-relative my-4">
-                        <hr class="text-muted">
-                        <span class="position-absolute top-50 start-50 translate-middle bg-white px-3 text-muted small">oppure</span>
-                    </div>
-                    
-                    <p class="text-muted mb-3">Non hai ancora un account? Scegli come registrarti:</p>
-                    
-                    <div class="row g-3">
-                        <div class="col-6">
-                            <a href="{% url 'signup_attendee' %}" class="btn btn-outline-secondary w-100 py-3 d-flex flex-column align-items-center h-100 shadow-sm">
-                                <span class="fw-bold text-dark">Partecipante</span>
-                                <small class="text-muted d-none d-sm-block mt-1" style="font-size: 11px;">Voglio iscrivermi agli eventi</small>
-                            </a>
-                        </div>
-                        
-                        <div class="col-6">
-                            <a href="{% url 'signup_organizer' %}" class="btn btn-outline-secondary w-100 py-3 d-flex flex-column align-items-center h-100 shadow-sm">
-                                <span class="fw-bold text-dark">Organizzatore</span>
-                                <small class="text-muted d-none d-sm-block mt-1" style="font-size: 11px;">Voglio creare e gestire eventi</small>
-                            </a>
-                        </div>
-                    </div>
-
-                </div>
-            {% endif %}
-
-        </div>
-        
-        <div class="text-center mt-5 text-muted small">
-            <p>Esercitazione Back-end PPM 2026</p>
-        </div>
-
+ 
+{% block title %}Event Manager - Home{% endblock title %}
+ 
+{% block body %}
+<div class="container min-vh-100 d-flex flex-column justify-content-center align-items-center py-5">
+ 
+    <div class="text-center mb-5">
+        <h1 class="display-5 fw-bold text-primary">Event Management System</h1>
+        <p class="lead text-muted">La piattaforma ideale per scoprire eventi straordinari o per organizzarli da protagonista.</p>
     </div>
-{% endblock body%}
+ 
+    <div class="card p-4 shadow-sm" style="max-width: 480px; width: 100%; border-radius: 15px;">
+ 
+        {% if user.is_authenticated %}
+            <div class="text-center">
+                <h3 class="mb-3">Bentornato, <span class="text-primary">{{ user.username }}</span>!</h3>
+                <p class="text-muted mb-4">
+                    Sei attualmente autenticato come:
+                    <span class="badge bg-secondary fs-6 mt-1">
+                        {% if user.is_organizer %} Organizzatore {% else %} Partecipante {% endif %}
+                    </span>
+                </p>
+ 
+                {% if user.is_organizer %}
+                    <a href="{% url 'organizer_dashboard' %}" class="btn btn-primary btn-lg w-100">Vai alla tua Area Riservata</a>
+                {% else %}
+                    <a href="{% url 'attendee_dashboard' %}" class="btn btn-primary btn-lg w-100">Vai alla tua Area Riservata</a>
+                {% endif %}
+            </div>
+ 
+        {% else %}
+            <div class="text-center">
+                <p class="text-muted mb-3">Non hai ancora un account? Scegli come registrarti:</p>
+ 
+                <div class="row g-3">
+                    <div class="col-6">
+                        <a href="{% url 'signup_attendee' %}" class="btn btn-outline-secondary w-100 py-3 d-flex flex-column align-items-center h-100 shadow-sm">
+                            <span class="fw-bold text-dark">Partecipante</span>
+                            <small class="text-muted mt-1" style="font-size: 11px;">Voglio iscrivermi agli eventi</small>
+                        </a>
+                    </div>
+                    <div class="col-6">
+                        <a href="{% url 'signup_organizer' %}" class="btn btn-outline-secondary w-100 py-3 d-flex flex-column align-items-center h-100 shadow-sm">
+                            <span class="fw-bold text-dark">Organizzatore</span>
+                            <small class="text-muted mt-1" style="font-size: 11px;">Voglio creare e gestire eventi</small>
+                        </a>
+                    </div>
+                </div>
+ 
+                <div class="position-relative my-4">
+                    <hr class="text-muted">
+                    <span class="position-absolute top-50 start-50 translate-middle bg-white px-3 text-muted small">oppure</span>
+                </div>
+ 
+                <a href="{% url 'login' %}" class="btn btn-primary w-100">Accedi al tuo Account</a>
+            </div>
+        {% endif %}
+ 
+    </div>
+ 
+    <div class="text-center mt-5 text-muted small">
+        <p>Esercitazione Back-end PPM 2026</p>
+    </div>
+ 
+</div>
+{% endblock body %}
