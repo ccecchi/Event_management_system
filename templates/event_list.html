@@ -1,0 +1,38 @@
+{% extends "base.html" %}
+
+{% block body %}
+<div class="container min-vh-100 d-flex flex-column align-items-center py-5">
+    <div class="card shadow-sm p-4" style="width: 600px;">
+        <div class="d-flex justify-content-between align-items-center mb-3">
+            <h2 class="h4 mb-0 text-dark">Upcoming Events</h2>
+        </div>
+
+        {% if event_list %}
+            <ul class="list-group">
+                {% for event in event_list %}
+                    <li class="list-group-item d-flex justify-content-between align-items-center">
+                        <div>
+                            <a href="{{ event.get_absolute_url }}" class="text-decoration-none">{{ event.title }}</a>
+                            <div class="text-muted small">{{ event.date }}</div>
+                        </div>
+
+                        {% if event.id in registered_event_ids %}
+                            <span class="badge bg-success rounded-pill">Registered</span>
+                        {% else %}
+                            <div class="text-center">
+                                <a href="{% url 'new_registration' event.pk %}" class="btn btn-primary w-100 py-2 shadow-sm fw-semibold">
+                                    <i class="bi bi-people-fill me-2"></i>Register
+                                </a>
+                            </div>
+                        {% endif %}
+                    </li>
+                {% endfor %}
+            </ul>
+        {% else %}
+            <div class="text-center text-muted small">
+                No upcoming events yet.
+            </div>
+        {% endif %}
+    </div>
+</div>
+{% endblock body %}
