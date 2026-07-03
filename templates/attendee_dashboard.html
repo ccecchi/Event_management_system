@@ -1,0 +1,33 @@
+{% extends "base.html" %}
+
+{% block body %}
+<div class="container min-vh-100 d-flex flex-column align-items-center py-5">
+    <div class="card shadow-sm p-4" style="width: 600px;">
+        <div class="d-flex justify-content-between align-items-center mb-3">
+            <h2 class="h4 mb-0 text-dark">My Registrations</h2>
+            <a href="{% url 'event_list' %}" class="btn btn-primary btn-sm">+ Browse events</a>
+        </div>
+
+        {% if registrations %}
+            <ul class="list-group">
+                {% for registration in registrations %}
+                    <li class="list-group-item d-flex justify-content-between align-items-center">
+                        <div>
+                            <a href="{{ registration.event.get_absolute_url }}" class="text-decoration-none">{{ registration.event.title }}</a>
+                            <div class="text-muted small">{{ registration.event.date }}</div>
+                        </div>
+                        <form action="" method="post" class="mb-0">
+                            {% csrf_token %}
+                            <button type="submit" class="btn btn-outline-danger btn-sm">Cancel</button>
+                        </form>
+                    </li>
+                {% endfor %}
+            </ul>
+        {% else %}
+            <div class="text-center text-muted small">
+                You haven't registered for any events yet.
+            </div>
+        {% endif %}
+    </div>
+</div>
+{% endblock body %}

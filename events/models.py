@@ -9,7 +9,10 @@ class Event(models.Model):
     date = models.DateTimeField()
     descr = models.TextField()
     address = models.CharField(max_length=255)
-    capacity = models.IntegerField()
+    capacity = models.PositiveIntegerField()
+
+    class Meta:
+        ordering = ["date"]
 
     def __str__(self):
         return self.title
