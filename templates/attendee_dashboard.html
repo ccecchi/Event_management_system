@@ -8,18 +8,19 @@
             <a href="{% url 'event_list' %}" class="btn btn-primary btn-sm">+ Browse events</a>
         </div>
 
-        {% if registrations %}
+        {% if registration_list %}
             <ul class="list-group">
-                {% for registration in registrations %}
+                {% for registration in registration_list %}
                     <li class="list-group-item d-flex justify-content-between align-items-center">
                         <div>
                             <a href="{{ registration.event.get_absolute_url }}" class="text-decoration-none">{{ registration.event.title }}</a>
                             <div class="text-muted small">{{ registration.event.date }}</div>
                         </div>
-                        <form action="" method="post" class="mb-0">
-                            {% csrf_token %}
-                            <button type="submit" class="btn btn-outline-danger btn-sm">Cancel</button>
-                        </form>
+                        <div class="text-center">
+                                <a href="{% url 'registration_delete' registration.event.pk %}" class="btn btn-danger w-100 py-2 shadow-sm fw-semibold">
+                                    <i class="bi bi-people-fill me-2"></i>Cancel
+                                </a>
+                            </div>
                     </li>
                 {% endfor %}
             </ul>

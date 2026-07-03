@@ -1,7 +1,9 @@
 from django.shortcuts import get_object_or_404, redirect, render
 from django.contrib import messages
-from django.views.generic import ListView, View
+from django.views.generic import ListView, View, DeleteView
 from accounts.mixins import AttendeeRequiredMixin
+from django.core.exceptions import PermissionDenied
+from django.urls import reverse_lazy
 from .models import Registration
 from events.models import Event
 
@@ -40,3 +42,15 @@ class RegistrationCreateView(AttendeeRequiredMixin, View):
         else:
             messages.info(request, "You were already registered for this event.")
         return redirect("event_list")
+    
+
+class RegistrationDeleteView(AttendeeRequiredMixin, DeleteView):
+    model = Registration
+    template_name = "registration_delete.html"
+    success_url = reverse_lazy("attendee_dashboard")
+
+    def dispatch(self, request, *args, **kwargs):
+        registration = self.get_object()
+        if request.user != registration.attendee:
+            raise PermissionDenied
+        return super().dispatch(request, *args, **kwargs)
