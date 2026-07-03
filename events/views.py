@@ -1,6 +1,6 @@
 from django.shortcuts import render
 from django.urls import reverse_lazy
-from accounts.mixins import OrganizerRequiredMixin
+from accounts.mixins import OrganizerRequiredMixin, AttendeeRequiredMixin
 from django.views.generic import ListView, DetailView, CreateView, DeleteView, UpdateView
 from django.contrib import messages
 from django.core.exceptions import PermissionDenied
@@ -46,12 +46,14 @@ class EventDeleteView(OrganizerRequiredMixin, DeleteView):
             raise PermissionDenied
         return super().dispatch(request, *args, **kwargs)
 
+
+class EventListView(AttendeeRequiredMixin, ListView):
+    model = Event
+    template_name = "event_list.html"
+
 class OrganizerDashboardView(OrganizerRequiredMixin, ListView):
     model = Event
     template_name = "organizer_dashboard.html"
-
-    def test_func(self):
-        return self.request.user.is_organizer()
 
     def get_queryset(self):
         return Event.objects.filter(organizer=self.request.user).order_by("date")
