@@ -20,7 +20,7 @@
                         <a href="{% url 'attendee_dashboard' %}" class="btn btn-outline-light btn-sm">My registrations</a>
                     {% endif %}
 
-                    <span class="text-white small d-none d-sm-inline">Ciao, {{ user.username }}</span>
+                    <span class="text-white small d-none d-sm-inline">Hi, {{ user.username }}</span>
 
                     <form action="{% url 'logout' %}" method="post" class="m-0">
                         {% csrf_token %}

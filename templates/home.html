@@ -1,67 +1,72 @@
 {% extends "base.html" %}
- 
+
 {% block title %}Event Manager - Home{% endblock title %}
- 
+
 {% block body %}
-<div class="container min-vh-100 d-flex flex-column justify-content-center align-items-center py-5">
- 
+<div class="container d-flex flex-column justify-content-center align-items-center py-5">
+
     <div class="text-center mb-5">
         <h1 class="display-5 fw-bold text-primary">Event Management System</h1>
-        <p class="lead text-muted">La piattaforma ideale per scoprire eventi straordinari o per organizzarli da protagonista.</p>
+        <p class="lead text-muted">The ideal platform to discover amazing events or to organize them yourself.</p>
     </div>
- 
-    <div class="card p-4 shadow-sm" style="max-width: 480px; width: 100%; border-radius: 15px;">
- 
+
+    <div class="card p-4 shadow-sm" style="max-width: 640px; width: 100%; border-radius: 15px;">
+
         {% if user.is_authenticated %}
             <div class="text-center">
-                <h3 class="mb-3">Bentornato, <span class="text-primary">{{ user.username }}</span>!</h3>
+                <h3 class="mb-3">Welcome back!</h3>
                 <p class="text-muted mb-4">
-                    Sei attualmente autenticato come:
-                    <span class="badge bg-secondary fs-6 mt-1">
-                        {% if user.is_organizer %} Organizzatore {% else %} Partecipante {% endif %}
-                    </span>
+                    You are currently logged in as:
+                    <span class="badge bg-secondary fs-6 mt-1"> {{ user.username }}</span>
                 </p>
- 
+
                 {% if user.is_organizer %}
-                    <a href="{% url 'organizer_dashboard' %}" class="btn btn-primary btn-lg w-100">Vai alla tua Area Riservata</a>
+                    <a href="{% url 'organizer_dashboard' %}" class="btn btn-primary btn-lg w-100">Go to Your Dashboard</a>
                 {% else %}
-                    <a href="{% url 'attendee_dashboard' %}" class="btn btn-primary btn-lg w-100">Vai alla tua Area Riservata</a>
+                    <a href="{% url 'attendee_dashboard' %}" class="btn btn-primary btn-lg w-100">Go to Your Dashboard</a>
                 {% endif %}
+
+                <form method="post" action="{% url 'logout' %}" class="mt-3">
+                    {% csrf_token %}
+                    <button type="submit" class="btn btn-outline-danger btn-lg w-100 ">
+                        Logout
+                    </button>
+                </form>
             </div>
- 
+
         {% else %}
             <div class="text-center">
-                <p class="text-muted mb-3">Non hai ancora un account? Scegli come registrarti:</p>
- 
-                <div class="row g-3">
-                    <div class="col-6">
-                        <a href="{% url 'signup_attendee' %}" class="btn btn-outline-secondary w-100 py-3 d-flex flex-column align-items-center h-100 shadow-sm">
-                            <span class="fw-bold text-dark">Partecipante</span>
-                            <small class="text-muted mt-1" style="font-size: 11px;">Voglio iscrivermi agli eventi</small>
-                        </a>
-                    </div>
-                    <div class="col-6">
-                        <a href="{% url 'signup_organizer' %}" class="btn btn-outline-secondary w-100 py-3 d-flex flex-column align-items-center h-100 shadow-sm">
-                            <span class="fw-bold text-dark">Organizzatore</span>
-                            <small class="text-muted mt-1" style="font-size: 11px;">Voglio creare e gestire eventi</small>
-                        </a>
-                    </div>
-                </div>
- 
+
+                <a href="{% url 'login' %}" class="btn btn-primary btn-lg w-100">Sign In to Your Account</a>
+
                 <div class="position-relative my-4">
                     <hr class="text-muted">
-                    <span class="position-absolute top-50 start-50 translate-middle bg-white px-3 text-muted small">oppure</span>
+                    <span class="position-absolute top-50 start-50 translate-middle bg-white px-3 text-muted small">or</span>
                 </div>
- 
-                <a href="{% url 'login' %}" class="btn btn-primary w-100">Accedi al tuo Account</a>
+
+                <p class="text-muted mb-3">Don't have an account yet? Choose how to 
+                    <span class="text-primary fw-bold">sign up</span>:</p>
+                <div class="row g-3">
+                    <div class="col-12 col-md-6">
+                        <a href="{% url 'signup_attendee' %}" class="btn btn-outline-secondary w-100 py-3 d-flex flex-column align-items-center h-100 shadow-sm">
+                            <span class="fw-bold text-dark">Attendee</span>
+                            <small class="text-muted mt-1">I want to sign up for events</small>
+                        </a>
+                    </div>
+                    <div class="col-12 col-md-6">
+                        <a href="{% url 'signup_organizer' %}" class="btn btn-outline-secondary w-100 py-3 d-flex flex-column align-items-center h-100 shadow-sm">
+                            <span class="fw-bold text-dark">Organizer</span>
+                            <small class="text-muted mt-1">I want to create and manage events</small>
+                        </a>
+                    </div>
+                </div>
             </div>
         {% endif %}
- 
+
     </div>
- 
     <div class="text-center mt-5 text-muted small">
-        <p>Esercitazione Back-end PPM 2026</p>
+        <p>Back-end PPM 2026 Exercise</p>
     </div>
- 
+
 </div>
-{% endblock body %}
+{% endblock body %} 

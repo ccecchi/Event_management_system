@@ -1,7 +1,7 @@
 {% extends "base.html" %}
 
 {% block body %}
-<div class="container min-vh-100 d-flex flex-column align-items-center justify-content-center py-5">
+<div class="container d-flex flex-column align-items-center justify-content-center py-5">
     <div class="col-12 col-md-8 col-lg-6">
 
         <h2 class="text-center mb-4 fw-bold text-dark">{{ object.title }}</h2>
@@ -25,6 +25,12 @@
                 <div class="text-center">
                     <a href="#" class="btn btn-primary w-100 py-2 shadow-sm fw-semibold">
                         <i class="bi bi-people-fill me-2"></i>See registrations
+                    </a>
+                </div>
+                {% elif is_registered %}
+                <div class="text-center">
+                    <a href="{% url 'registration_delete' object.pk %}" class="btn btn-danger w-100 py-2 shadow-sm fw-semibold">
+                        <i class="bi bi-people-fill me-2"></i>Cancel registration
                     </a>
                 </div>
                 {% else %}

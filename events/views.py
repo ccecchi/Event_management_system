@@ -1,15 +1,25 @@
 from django.shortcuts import redirect
 from django.urls import reverse_lazy
+from django.contrib.auth.mixins import LoginRequiredMixin
 from accounts.mixins import OrganizerRequiredMixin, AttendeeRequiredMixin
 from django.views.generic import ListView, DetailView, CreateView, DeleteView, UpdateView
 from django.contrib import messages
 from .models import Event
 from .forms import EventForm
+from registrations.models import Registration
 
 
-class EventDetailView(DetailView):
+class EventDetailView(DetailView, LoginRequiredMixin):
     model = Event
     template_name = "event_detail.html"
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        if not self.request.user.is_organizer():
+            context["is_registered"] = Registration.objects.filter(
+                attendee=self.request.user, event=self.object
+            ).exists()
+        return context
 
 
 class EventCreateView(OrganizerRequiredMixin, CreateView):
@@ -47,6 +57,13 @@ class EventDeleteView(OrganizerRequiredMixin, DeleteView):
 class EventListView(AttendeeRequiredMixin, ListView):
     model = Event
     template_name = "event_list.html"
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context["registered_event_ids"] = set(
+            Registration.objects.filter(attendee=self.request.user).values_list("event_id", flat=True)
+        )
+        return context
 
 class OrganizerDashboardView(OrganizerRequiredMixin, ListView):
     model = Event
