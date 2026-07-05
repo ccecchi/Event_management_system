@@ -1,0 +1,34 @@
+{% extends "base.html" %}
+
+{% block body %}
+<div class="container d-flex flex-column align-items-center justify-content-center py-5">
+    <div class="col-12 col-md-8 col-lg-6">
+
+        <h2 class="text-center mb-4 fw-bold text-dark">Registrations for "{{ event.title }}"</h2>
+
+        <div class="card shadow-sm border-0">
+            {% if registration_list %}
+                <ul class="list-group list-group-flush">
+                    {% for registration in registration_list %}
+                        <li class="list-group-item d-flex align-items-center">
+                            <i class="bi bi-person-circle me-2 text-primary"></i>
+                            {{ registration.attendee.username }}
+                        </li>
+                    {% endfor %}
+                </ul>
+            {% else %}
+                <div class="card-body text-center text-muted">
+                    No one has registered for this event yet.
+                </div>
+            {% endif %}
+        </div>
+
+        <div class="text-center mt-4">
+            <a href="{% url 'event_detail' event.pk %}" class="btn btn-outline-secondary">
+                <i class="bi bi-arrow-left me-2"></i>Back to event
+            </a>
+        </div>
+
+    </div>
+</div>
+{% endblock body %}

@@ -23,7 +23,7 @@
 
                 {% if user.is_organizer %}
                 <div class="text-center">
-                    <a href="#" class="btn btn-primary w-100 py-2 shadow-sm fw-semibold">
+                    <a href="{% url 'attendee_list' object.pk %}" class="btn btn-primary w-100 py-2 shadow-sm fw-semibold">
                         <i class="bi bi-people-fill me-2"></i>See registrations
                     </a>
                 </div>
