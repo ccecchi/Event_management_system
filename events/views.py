@@ -2,6 +2,7 @@ from django.shortcuts import redirect
 from django.urls import reverse_lazy
 from django.contrib.auth.mixins import LoginRequiredMixin
 from accounts.mixins import OrganizerRequiredMixin, AttendeeRequiredMixin
+from .mixins import EventOwnerRequiredMixin
 from django.views.generic import ListView, DetailView, CreateView, DeleteView, UpdateView
 from django.contrib import messages
 from .models import Event
@@ -35,23 +36,16 @@ class EventCreateView(OrganizerRequiredMixin, CreateView):
         return response
 
 
-class EventUpdateView(OrganizerRequiredMixin, UpdateView):
+class EventUpdateView(OrganizerRequiredMixin, EventOwnerRequiredMixin, UpdateView):
     model = Event
     form_class = EventForm
     template_name = "event_edit.html"
 
 
-class EventDeleteView(OrganizerRequiredMixin, DeleteView):
+class EventDeleteView(OrganizerRequiredMixin, EventOwnerRequiredMixin, DeleteView):
     model = Event
     template_name = "event_delete.html"
     success_url = reverse_lazy("organizer_dashboard")
-
-    def dispatch(self, request, *args, **kwargs):
-        self.object = self.get_object()
-        if request.user != self.object.organizer:
-            messages.error(request, "You do not have permission to access this page.", extra_tags='danger')
-            return redirect("home")
-        return super().dispatch(request, *args, **kwargs)
 
 
 class EventListView(AttendeeRequiredMixin, ListView):
