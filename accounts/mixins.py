@@ -10,7 +10,7 @@ class OrganizerRequiredMixin(LoginRequiredMixin, UserPassesTestMixin):
     def handle_no_permission(self):
         if not self.request.user.is_authenticated:
             return super().handle_no_permission()
-        messages.error(self.request, "You do not have permission to access this page.")
+        messages.error(self.request, "You do not have permission to access this page.", extra_tags='danger')
         return redirect("home")
 
 
@@ -21,5 +21,5 @@ class AttendeeRequiredMixin(LoginRequiredMixin, UserPassesTestMixin):
     def handle_no_permission(self):
         if not self.request.user.is_authenticated:
             return super().handle_no_permission()
-        messages.error(self.request, "You do not have permission to access this page.")
-        return redirect("attendee_dshboard")
+        messages.error(self.request, "You do not have permission to access this page.", extra_tags='danger')
+        return redirect("home")

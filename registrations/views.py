@@ -2,7 +2,6 @@ from django.shortcuts import get_object_or_404, redirect, render
 from django.contrib import messages
 from django.views.generic import ListView, View, DeleteView
 from accounts.mixins import AttendeeRequiredMixin
-from django.core.exceptions import PermissionDenied
 from django.urls import reverse_lazy
 from .models import Registration
 from events.models import Event
@@ -52,5 +51,6 @@ class RegistrationDeleteView(AttendeeRequiredMixin, DeleteView):
     def dispatch(self, request, *args, **kwargs):
         registration = self.get_object()
         if request.user != registration.attendee:
-            raise PermissionDenied
+            messages.error(request, "You do not have permission to access this page.", extra_tags='danger')
+            return redirect("home")
         return super().dispatch(request, *args, **kwargs)

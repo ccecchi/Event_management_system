@@ -1,9 +1,8 @@
-from django.shortcuts import render
+from django.shortcuts import redirect
 from django.urls import reverse_lazy
 from accounts.mixins import OrganizerRequiredMixin, AttendeeRequiredMixin
 from django.views.generic import ListView, DetailView, CreateView, DeleteView, UpdateView
 from django.contrib import messages
-from django.core.exceptions import PermissionDenied
 from .models import Event
 from .forms import EventForm
 
@@ -18,9 +17,6 @@ class EventCreateView(OrganizerRequiredMixin, CreateView):
     form_class = EventForm
     template_name = "event_new.html"
     success_url = reverse_lazy("organizer_dashboard")
-
-    def test_func(self):
-        return self.request.user.is_organizer
 
     def form_valid(self, form):
         form.instance.organizer = self.request.user
@@ -43,7 +39,8 @@ class EventDeleteView(OrganizerRequiredMixin, DeleteView):
     def dispatch(self, request, *args, **kwargs):
         self.object = self.get_object()
         if request.user != self.object.organizer:
-            raise PermissionDenied
+            messages.error(request, "You do not have permission to access this page.", extra_tags='danger')
+            return redirect("home")
         return super().dispatch(request, *args, **kwargs)
 
 
