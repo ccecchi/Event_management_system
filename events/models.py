@@ -7,9 +7,8 @@ class Event(models.Model):
     organizer = models.ForeignKey(CustomUser, on_delete=models.CASCADE)
     title = models.CharField(max_length=100)
     date = models.DateTimeField()
-    descr = models.TextField()
-    address = models.CharField(max_length=255)
-    capacity = models.PositiveIntegerField()
+    description = models.TextField()
+    location = models.CharField(max_length=255)
 
     class Meta:
         ordering = ["date"]

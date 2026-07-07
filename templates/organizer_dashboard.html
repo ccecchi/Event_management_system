@@ -13,10 +13,14 @@
                 {% for event in event_list %}
                     <li class="list-group-item d-flex justify-content-between align-items-center">
                         <div>
-                            <a href="{{ event.get_absolute_url }}" class="text-decoration-none">{{ event.title }}</a>
+                            <a href="{{ event.get_absolute_url }}" class="text-decoration-none fw-medium">{{ event.title }}</a>
                             <div class="text-muted small">{{ event.date }}</div>
                         </div>
-                        <span class="badge bg-secondary rounded-pill">{{ event.capacity }} spots</span>
+                        <div class="text-center">
+                            <a href="{% url 'attendee_list' event.pk %}" class="btn btn-outline-primary btn-sm rounded-pill px-3 py-1">
+                                Attendee list
+                            </a>
+                        </div>
                     </li>
                 {% endfor %}
             </ul>
