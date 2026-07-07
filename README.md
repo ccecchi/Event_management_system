@@ -67,4 +67,24 @@ The application core relies on three primary models:
 - Admin: admin_demo / admin1234 (this is the superuser)
 
 ## Online deployment link
-The live production version of this application can be accessed online here: [Deployment link]().
+The live production version of this application can be accessed online here: [Deployment link](https://eventmanagementsystem-production-92bb.up.railway.app).
+
+
+## Suggested Testing
+
+To verify the core functionalities and Role-Based Access Control of the application, follow this step-by-step browser testing scenario:
+
+### Step 1) Organizer Workflow
+1. **Log In:** navigate to the login page and access the application using the Organizer credentials (`manager_demo` / `manager12345`).
+2. **Test Permissions:** try navigate to the login and registration page and verify that the application block the request.
+3. **Create an Event:** go to the event creation form, fill out the details for a new event, and submit it. 
+4. **Verify Dashboard:** ensure the newly created event appears on your dashboard list.
+5. **Check Registrations:** navigate to an existing event to view its registration list.
+5. **Log Out:** Log out of the organizer account.
+
+### Step 2) Attendee Workflow
+1. **Log In:** log back in using the Attendee credentials (`user_demo` / `user12345`).
+2. **Explore:** browse the global events page to find the new event created by the organizer at step 1.
+3. **Register:** click the registration button to reserve a spot for that event.
+4. **Verify Reservations:** go to your personal dashboard page to confirm that the event shows up under your account.
+5. **Test Permissions**: attempt to manually access an organizer URL (the event creation page) to verify that the application properly blocks unauthorized users.
