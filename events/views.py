@@ -47,6 +47,12 @@ class EventDeleteView(OrganizerRequiredMixin, EventOwnerRequiredMixin, DeleteVie
     template_name = "event_delete.html"
     success_url = reverse_lazy("organizer_dashboard")
 
+    def form_valid(self, form):
+        event_title = self.object.title
+        response = super().form_valid(form)
+        messages.success(self.request, f'Event "{event_title}" has been successfully deleted!')
+        return response
+
 
 class EventListView(AttendeeRequiredMixin, ListView):
     model = Event
