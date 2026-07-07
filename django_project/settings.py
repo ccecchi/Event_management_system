@@ -26,7 +26,7 @@ SECRET_KEY = 'django-insecure-&2f_nq7n^l%d9v$y-26et3&pbzgl9oxx=2+5mcmar5ks3q_)y7
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = False
 
-ALLOWED_HOSTS = ["https://eventmanagementsystem-production-92bb.up.railway.app",'127.0.0.1', 'localhost']
+ALLOWED_HOSTS = ["eventmanagementsystem-production-92bb.up.railway.app",'127.0.0.1', 'localhost']
 
 
 # Application definition
