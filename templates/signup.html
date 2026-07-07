@@ -5,17 +5,29 @@
     <div class="col-12 col-md-8 col-lg-6">
         <h2 class="text-center mb-1 fw-bold text-dark">Sign Up</h2>
 
-        <div class="text-center text-muted small mb-4">
-            Registering as: 
-            <span class="badge bg-light text-dark border px-2 py-1.5 fw-semibold ms-1">
-                {% if role_type == "A" %}
-                    Attendee
-                {% elif role_type == "O" %}
-                    Organizer
-                {% else %}
-                    {{ role_type }}
-                {% endif %}
-            </span>
+        <div class="text-center mb-4 mt-2">
+            <div class="d-flex align-items-center justify-content-center flex-wrap">
+                <span class="text-muted">
+                    Registering as: 
+                    <span class="badge bg-light text-dark border px-2 py-1 fw-semibold ms-1">
+                    {% if role_type == "A" %}
+                        Attendee
+                    </span>
+                    <a href="{% url 'signup_organizer' %}" 
+                    class="small text-primary text-decoration-none fw-medium px-3 py-1 rounded-pill border border-primary-subtle bg-primary bg-opacity-10 d-inline-flex align-items-center gap-1">
+                        <i class="bi bi-arrow-left-right"></i> Switch to Organizer
+                    </a>
+
+                    {% elif role_type == "O" %}
+                        Organizer
+                    </span>
+                    <a href="{% url 'signup_attendee' %}" 
+                    class="small text-primary text-decoration-none fw-medium px-3 py-1 rounded-pill border border-primary-subtle bg-primary bg-opacity-10 d-inline-flex align-items-center gap-1">
+                        <i class="bi bi-arrow-left-right"></i> Switch to Attendee
+                    </a>
+                    {% endif %}
+                </span>
+            </div>
         </div>
 
         {% if form.errors %}

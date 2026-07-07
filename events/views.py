@@ -10,7 +10,7 @@ from .forms import EventForm
 from registrations.models import Registration
 
 
-class EventDetailView(DetailView, LoginRequiredMixin):
+class EventDetailView(LoginRequiredMixin, DetailView):
     model = Event
     template_name = "event_detail.html"
 

@@ -37,7 +37,7 @@
         {% else %}
             <div class="text-center">
 
-                <a href="{% url 'login' %}" class="btn btn-primary btn-lg w-100">Sign In to Your Account</a>
+                <a href="{% url 'login' %}" class="btn btn-primary btn-lg w-100">Sign in to your Account</a>
 
                 <div class="position-relative my-4">
                     <hr class="text-muted">
@@ -45,18 +45,18 @@
                 </div>
 
                 <p class="text-muted mb-3">Don't have an account yet? Choose how to 
-                    <span class="text-primary fw-bold">sign up</span>:</p>
+                    <span class="text-dark fw-bold">sign up</span>:</p>
                 <div class="row g-3">
                     <div class="col-12 col-md-6">
                         <a href="{% url 'signup_attendee' %}" class="btn btn-outline-secondary w-100 py-3 d-flex flex-column align-items-center h-100 shadow-sm">
-                            <span class="fw-bold text-dark">Attendee</span>
-                            <small class="text-muted mt-1">I want to sign up for events</small>
+                            <h5 class="fw-bold text-primary">Attendee</h5>
+                            <small class="text-muted">I want to sign up for events</small>
                         </a>
                     </div>
                     <div class="col-12 col-md-6">
                         <a href="{% url 'signup_organizer' %}" class="btn btn-outline-secondary w-100 py-3 d-flex flex-column align-items-center h-100 shadow-sm">
-                            <span class="fw-bold text-dark">Organizer</span>
-                            <small class="text-muted mt-1">I want to create and manage events</small>
+                            <h5 class="fw-bold text-primary">Organizer</h5>
+                            <small class="text-muted">I want to create and manage events</small>
                         </a>
                     </div>
                 </div>
